@@ -1,52 +1,11 @@
 # ember-cli-deps
 
-This README outlines the details of collaborating on this Ember application.
-A short introduction of this app could easily go here.
+This app includes an addon, `ember-zz-bad-addon`, which has an exact-version runtime dependency of `ember-concurrency@0.8.12`. This app also includes `ember-concurrency@0.8.15` directly. It has one test that verifies that `waitForProperty` exists, which is present in `0.8.15`, but not it `0.8.12`. The test fails, demonstrating that `ember-zz-bad-addon`'s version of `ember-concurrency` is taking precedence of the app's version.
 
-## Prerequisites
+Interestingly, it appears to be tied to the lexographical ordering of the addon names. `ember-aa-bad-addon` is identical to `ember-zz-bad-addon` except it's name, and you can get the tests to pass by:
 
-You will need the following things properly installed on your computer.
-
-* [Git](https://git-scm.com/)
-* [Node.js](https://nodejs.org/)
-* [Yarn](https://yarnpkg.com/)
-* [Ember CLI](https://ember-cli.com/)
-* [Google Chrome](https://google.com/chrome/)
-
-## Installation
-
-* `git clone <repository-url>` this repository
-* `cd ember-cli-deps`
-* `yarn install`
-
-## Running / Development
-
-* `ember serve`
-* Visit your app at [http://localhost:4200](http://localhost:4200).
-* Visit your tests at [http://localhost:4200/tests](http://localhost:4200/tests).
-
-### Code Generators
-
-Make use of the many generators for code, try `ember help generate` for more details
-
-### Running Tests
-
-* `ember test`
-* `ember test --server`
-
-### Building
-
-* `ember build` (development)
-* `ember build --environment production` (production)
-
-### Deploying
-
-Specify what it takes to deploy your app.
-
-## Further Reading / Useful Links
-
-* [ember.js](https://emberjs.com/)
-* [ember-cli](https://ember-cli.com/)
-* Development Browser Extensions
-  * [ember inspector for chrome](https://chrome.google.com/webstore/detail/ember-inspector/bmdblncegkenkacieihfhpjfppoconhi)
-  * [ember inspector for firefox](https://addons.mozilla.org/en-US/firefox/addon/ember-inspector/)
+```
+$ yarn remove ember-zz-bad-addon
+$ ember install git+https://git@github.com/bendemboski/ember-aa-bad-addon.git
+$ ember test
+```
